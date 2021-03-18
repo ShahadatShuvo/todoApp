@@ -1,86 +1,95 @@
 {% extends 'app/base.html' %}
 {% block content %}
 <div>
-  <div class="container pt-4">
-    <div class="row  p-0 mt-4">
-      <div class="col-lg-4 mx-auto shadow p-0">
-        <div class="alert alert-info">
-          <h2>Add New TODO</h2>
-        </div>
-        <div class="p-4">
-          <form action="/add-todo/" method="POST">
-            {% csrf_token %}
-            {{forms.as_p}}
-            <hr>
-            <input type="submit" value="ADD" class="btn btn-info">
-          </form>
-        </div>
-      </div>
-
-
-
-      <div class="col">
-        <div class="border">
-
-          {% if todos|length == 0 %}
-
-          <div class="p-4">
-            <br>
-            <br>
-            <div class="alert alert-info text-center">
-              <p class="" style="font-size: 30px;">No Todos</p>
+    <div class="container pt-4 pb-3">
+        <div class="row  p-0 mt-4">
+            <div class="col-lg-4 mx-auto shadow p-0">
+                <div class="alert alert-info">
+                    <h2>Add New TODO</h2>
+                </div>
+                <div class="p-4">
+                    <form action="/add-todo/" method="POST">
+                        {% csrf_token %}
+                        {{forms.as_p}}
+                        <hr>
+                        <input type="submit" value="ADD" class="btn btn-info">
+                    </form>
+                </div>
             </div>
-            <br>
-            <br>
-          </div>
 
-          {%else%}
-          <div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Title</th>
-                  <th>Status</th>
-                  <th>Priority</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
 
-              <tbody>
+            <div class="col">
+                <div class="border">
 
-                {% for todo in todos %}
-                <tr>
-                  <td>{{forloop.counter}}</td>
-                  <td>{{todo.title}}</td>
-                  <td>
-                    {% if todo.status == 'C'%}
-                    ✅
+                    {% if todos|length == 0 %}
+
+                    <div class="p-4">
+                        <br>
+                        <br>
+                        <div class="alert alert-info text-center">
+                            <p class="" style="font-size: 30px;">No Todos</p>
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+
                     {%else%}
-                    🕒
+                    <div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            {% for todo in todos %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{todo.title}}</td>
+                                <td>
+                                    {% if todo.status == 'C'%}
+                                    ✅
+                                    {%else%}
+                                    🕒
+                                    {%endif%}
+                                </td>
+                                <td>{{todo.priority}}</td>
+                                <td>
+                                    <a href="/delete-todo/{{todo.id}}" title="Delete" class="">🗑️</a>
+                                    {% if todo.status == 'P'%}
+                                    <a href="/change-status/{{todo.id}}/C" title="Mark Completed" class="">✅</a>
+                                    {%else%}
+                                    <a href="/change-status/{{todo.id}}/P" title="Mark Pending" class="">🕒</a>
+                                    {%endif%}
+                                </td>
+                            </tr>
+                            {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
                     {%endif%}
-                  </td>
-                  <td>{{todo.priority}}</td>
-                  <td>
-                    <a href="/delete-todo/{{todo.id}}" title="Delete" class="">🗑️</a>
-                    {% if todo.status == 'P'%}
-                    <a href="/change-status/{{todo.id}}/C" title="Mark Completed" class="">✅</a>
-                    {%else%}
-                    <a href="/change-status/{{todo.id}}/P" title="Mark Pending" class="">🕒</a>
-                    {%endif%}
-                  </td>
-                </tr>
-                {%endfor%}
-
-
-              </tbody>
-            </table>
-          </div>
-          {%endif%}
-
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+</div>
+
+<div class="card text-center">
+  <div class="card-header">
+
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">About this App</h5>
+    <p class="card-text">This is a Demo application with multiple user supports, user can add and delete elements from the list.</p>
+  </div>
+  <div class="card-footer text-muted">
+    <span>Created By <a href="https://www.facebook.com/hossainshuvo7860/">Shahadat Hossain</a> | 2021 All rights reserved.</span>
   </div>
 </div>
 {% endblock %}
